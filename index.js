@@ -3,9 +3,9 @@ const initGameEngine = () => {
     const columns = 10;
     const size = rows * columns;
     const bombsAmount = 12;
-    const grid = [];
+    const board = [];
     const transformationTable = {
-        grid: []
+        board: []
     };
     const surroundings = [
         [-1, -1],
@@ -43,18 +43,18 @@ const initGameEngine = () => {
     }
 
 
-    function createBoard(gridElement) {
-        console.log('Creating board: ', gridElement);
+    function createBoard(boardElement) {
+        console.log('Creating board: ', boardElement);
         for (let i = 0; i < size; i++) {
             _addPosToTransformationTable(i);
             const square = document.createElement('div');
             square.classList.add('square');
             square.classList.add(shuffledArray[i]);
             square.id = `square-${i}`;
-            square.innerHTML = '' + i;
+            // square.innerHTML = '' + i;
 
-            gridElement.appendChild(square);
-            grid.push(square);
+            boardElement.appendChild(square);
+            board.push(square);
 
             square.addEventListener('click', e => {
                 console.log(`Clicked on square ${e.target.id}`, e);
@@ -62,11 +62,17 @@ const initGameEngine = () => {
         }
     }
 
+    function _computeFlagNumbers() {
+        for (let i = 0; i < size; i++) {
+
+        }
+    }
+
     function _addPosToTransformationTable(pos) {
         const row = parseInt(pos / rows);
         const col = pos - (row * rows);
         const pos_name = `p_${row}_${col}`;
-        transformationTable.grid[pos] = pos_name;
+        transformationTable.board[pos] = pos_name;
         transformationTable[pos_name] = pos;
         return pos_name;
     }
@@ -74,7 +80,7 @@ const initGameEngine = () => {
 
     function getNeighbors(id) {
         const neighbors = [];
-        let myPos2D = transformationTable.grid[id];
+        let myPos2D = transformationTable.board[id];
         let my_row = parseInt(myPos2D.split('_')[1]);
         let my_col = parseInt(myPos2D.split('_')[2]);
         surroundings.forEach(neighbor => {
@@ -105,8 +111,8 @@ let testFunction = null;
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Dom loaded');
     const gameEngine = initGameEngine();
-    const gridElement = document.querySelector('#grid');
-    gameEngine.createBoard(gridElement);
+    const boardElement = document.querySelector('#grid');
+    gameEngine.createBoard(boardElement);
     testFunction = gameEngine.getNeighbors;
 
 });
