@@ -30,3 +30,7 @@ body {
     border: solid 1px black;
     box-sizing: border-box;
 }
+
+.bomb {
+    background-color: orange;
+}
