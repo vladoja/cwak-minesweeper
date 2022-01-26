@@ -60,11 +60,16 @@ const initGameEngine = () => {
                 console.log(`Clicked on square ${e.target.id}`, e);
             })
         }
+        _computeFlagNumbers();
     }
 
     function _computeFlagNumbers() {
         for (let i = 0; i < size; i++) {
-
+            if (board[i].classList.contains('valid')) {
+                const neighbors = getNeighbors(i);
+                let bombCounter = neighbors.filter((square) => square.classList.contains('bomb')).length;
+                board[i].setAttribute('data', bombCounter);
+            }
         }
     }
 
@@ -78,7 +83,7 @@ const initGameEngine = () => {
     }
 
 
-    function getNeighbors(id) {
+    function getNeighborsIndexes(id) {
         const neighbors = [];
         let myPos2D = transformationTable.board[id];
         let my_row = parseInt(myPos2D.split('_')[1]);
@@ -97,10 +102,15 @@ const initGameEngine = () => {
 
     }
 
+    function getNeighbors(id) {
+        const neighborIndexes = getNeighborsIndexes(id);
+        return board.filter((square, index) => neighborIndexes.indexOf(index) >= 0);
+    }
+
 
     return {
         createBoard,
-        getNeighbors
+        getNeighborsIndexes
     }
 
 }
@@ -113,6 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameEngine = initGameEngine();
     const boardElement = document.querySelector('#grid');
     gameEngine.createBoard(boardElement);
-    testFunction = gameEngine.getNeighbors;
+    testFunction = gameEngine.getNeighborsIndexes;
 
 });
