@@ -1,4 +1,5 @@
 const initGameEngine = () => {
+    let isGameOver = false;
     const rows = 10;
     const columns = 10;
     const size = rows * columns;
@@ -57,10 +58,35 @@ const initGameEngine = () => {
             board.push(square);
 
             square.addEventListener('click', e => {
-                console.log(`Clicked on square ${e.target.id}`, e);
+                click(e.target);
+                // console.log(`Clicked on square ${e.target.id}`, e);
             })
         }
         _computeFlagNumbers();
+    }
+
+    function click(element) {
+        console.log(`Clicked on square ${element.id}`);
+        if (isGameOver) return;
+        if (element.classList.contains('checked') || element.classList.contains('flag')) {
+            console.log('Already checked');
+            return;
+        }
+        if (element.classList.contains('bomb')) {
+            console.log('GAME OVER');
+            return;
+        }
+
+        // if (element.classList.contains('flag')) {
+        //     element.classList.remove('flag');
+        //     element.classList.add('questionmark');
+        //     return;
+        // }
+        let total = element.getAttribute('data');
+        if (total > 0) {
+            element.innerHTML = total;
+        }
+        element.classList.add('checked');
     }
 
     function _computeFlagNumbers() {
@@ -69,6 +95,10 @@ const initGameEngine = () => {
                 const neighbors = getNeighbors(i);
                 let bombCounter = neighbors.filter((square) => square.classList.contains('bomb')).length;
                 board[i].setAttribute('data', bombCounter);
+                // if (bombCounter > 0) {
+                //     board[i].innerHTML = '' + bombCounter;
+                // }
+
             }
         }
     }
