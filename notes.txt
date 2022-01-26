@@ -1,0 +1,8 @@
+Board shuffling
+    To shuffle bombs on board I have used
+    Fisher–Yates shuffle algorithm.
+
+
+Position neighbors
+    I have created transformation table for
+    position in one dimension to two dimensions (row and column).
