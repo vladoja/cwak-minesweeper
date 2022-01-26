@@ -3,7 +3,7 @@ const initGameEngine = () => {
     const rows = 10;
     const columns = 10;
     const size = rows * columns;
-    const bombsAmount = 12;
+    const bombsAmount = 14;
     const board = [];
     const transformationTable = {
         board: []
@@ -45,13 +45,14 @@ const initGameEngine = () => {
 
 
     function createBoard(boardElement) {
-        console.log('Creating board: ', boardElement);
+        // console.log('Creating board: ', boardElement);
         for (let i = 0; i < size; i++) {
             _addPosToTransformationTable(i);
             const square = document.createElement('div');
             square.classList.add('square');
             square.classList.add(shuffledArray[i]);
-            square.id = `square-${i}`;
+            // square.id = `square-${i}`;
+            square.id = `${i}`;
             // square.innerHTML = '' + i;
 
             boardElement.appendChild(square);
@@ -66,7 +67,7 @@ const initGameEngine = () => {
     }
 
     function click(element) {
-        console.log(`Clicked on square ${element.id}`);
+        // console.log(`Clicked on square ${element.id}`);
         if (isGameOver) return;
         if (element.classList.contains('checked') || element.classList.contains('flag')) {
             console.log('Already checked');
@@ -74,6 +75,7 @@ const initGameEngine = () => {
         }
         if (element.classList.contains('bomb')) {
             console.log('GAME OVER');
+            isGameOver = true;
             return;
         }
 
@@ -85,8 +87,24 @@ const initGameEngine = () => {
         let total = element.getAttribute('data');
         if (total > 0) {
             element.innerHTML = total;
+        } else {
+            _checkSquare(element);
         }
         element.classList.add('checked');
+
+    }
+
+
+    function _checkSquare(square) {
+        let squareId = parseInt(square.id);
+        // console.log('checkSquare: ', squareId);
+        setTimeout(() => {
+            let neighbors = getNeighbors(squareId);
+            for (let neighbor of neighbors) {
+                click(neighbor);
+            }
+        }, 10);
+
     }
 
     function _computeFlagNumbers() {
@@ -149,10 +167,9 @@ const initGameEngine = () => {
 let testFunction = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Dom loaded');
     const gameEngine = initGameEngine();
     const boardElement = document.querySelector('#grid');
     gameEngine.createBoard(boardElement);
-    testFunction = gameEngine.getNeighborsIndexes;
+    // testFunction = gameEngine.getNeighborsIndexes;
 
 });
