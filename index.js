@@ -6,6 +6,7 @@ const initGameEngine = () => {
     const columns = 10;
     const size = rows * columns;
     const bombsAmount = 14;
+    let bombsLeft = 14;
     const board = [];
     const transformationTable = {
         board: []
@@ -27,7 +28,7 @@ const initGameEngine = () => {
     const gameArray = emptyArray.concat(bombsArray);
     const shuffledArray = shuffle(gameArray);
 
-    console.log(shuffledArray);
+    let bombsLeftElement = null;
 
     /**
      * Shuffles array in place with
@@ -83,10 +84,16 @@ const initGameEngine = () => {
         if (element.classList.contains('flag')) {
             element.classList.remove('flag');
             element.innerHTML = '';
+            bombsLeft++;
             // element.classList.add('checked')
         } else {
             element.classList.add('flag');
             element.innerHTML = flagIcon;
+            bombsLeft--;
+        }
+        bombsLeftElement.innerHTML = bombsLeft;
+        if (bombsLeft === 0) {
+            _handleGameOver();
         }
     }
 
@@ -100,6 +107,7 @@ const initGameEngine = () => {
         }
         if (element.classList.contains('bomb')) {
             console.log('GAME OVER');
+            element.innerHTML = bombIcon;
             isGameOver = true;
             return;
         }
@@ -119,6 +127,10 @@ const initGameEngine = () => {
 
     }
 
+
+    function _handleGameOver() {
+
+    }
 
     function _checkSquare(square) {
         let squareId = parseInt(square.id);
@@ -180,10 +192,24 @@ const initGameEngine = () => {
         return board.filter((square, index) => neighborIndexes.indexOf(index) >= 0);
     }
 
+    function setBombsLeftElement(element) {
+        if (!element) {
+            alert('BombsLeftElement cannot be null');
+            return;
+        }
+        bombsLeftElement = element;
+        bombsLeftElement.innerHTML = bombsLeft;
+    }
+
+    function getBombs() {
+        return bombsLeft;
+    }
 
     return {
         createBoard,
-        getNeighborsIndexes
+        getNeighborsIndexes,
+        getBombs,
+        setBombsLeftElement
     }
 
 }
@@ -195,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameEngine = initGameEngine();
     const boardElement = document.querySelector('#grid');
     gameEngine.createBoard(boardElement);
+    gameEngine.setBombsLeftElement(document.querySelector('#bomb-counter span'));
     // testFunction = gameEngine.getNeighborsIndexes;
 
 });
