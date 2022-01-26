@@ -6,3 +6,8 @@ Board shuffling
 Position neighbors
     I have created transformation table for
     position in one dimension to two dimensions (row and column).
+
+
+Right click
+    Is done via listening on 'contextmenu' event. Immediately after
+    click is called 'preventDefault' function.

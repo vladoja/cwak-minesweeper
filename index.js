@@ -1,5 +1,7 @@
 const initGameEngine = () => {
     let isGameOver = false;
+    const flagIcon = '🚩';
+    const bombIcon = '💣';
     const rows = 10;
     const columns = 10;
     const size = rows * columns;
@@ -62,9 +64,32 @@ const initGameEngine = () => {
                 click(e.target);
                 // console.log(`Clicked on square ${e.target.id}`, e);
             })
+            square.addEventListener('contextmenu', e => {
+                e.preventDefault();
+                rightClick(e.target);
+
+                // click(e.target);
+                // console.log(`Clicked on square ${e.target.id}`, e);
+            })
         }
         _computeFlagNumbers();
     }
+
+    function rightClick(element) {
+        if (isGameOver) return;
+        if (element.classList.contains('checked')) {
+            return;
+        }
+        if (element.classList.contains('flag')) {
+            element.classList.remove('flag');
+            element.innerHTML = '';
+            // element.classList.add('checked')
+        } else {
+            element.classList.add('flag');
+            element.innerHTML = flagIcon;
+        }
+    }
+
 
     function click(element) {
         // console.log(`Clicked on square ${element.id}`);
