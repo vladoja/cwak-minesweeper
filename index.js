@@ -5,8 +5,8 @@ const initGameEngine = () => {
     const rows = 10;
     const columns = 10;
     const size = rows * columns;
-    const bombsAmount = 14;
-    let bombsLeft = 14;
+    const bombsAmount = 5;
+    let bombsLeft = bombsAmount;
     const board = [];
     const transformationTable = {
         board: []
@@ -93,7 +93,9 @@ const initGameEngine = () => {
         }
         bombsLeftElement.innerHTML = bombsLeft;
         if (bombsLeft === 0) {
-            _handleGameOver();
+            if (_checkAll()) {
+                _handleGameOver();
+            }
         }
     }
 
@@ -124,11 +126,56 @@ const initGameEngine = () => {
             _checkSquare(element);
         }
         element.classList.add('checked');
+        if (bombsLeft === 0) {
+            if (_checkAll()) {
+                _handleGameOver();
+            }
+        }
 
     }
 
 
+
+    function _checkAll() {
+        let checkedPositionCounter = 0;
+        let flagedBombCounter = 0;
+        board.forEach((square) => {
+            if (square.classList.contains('valid') && square.classList.contains('checked')) {
+                checkedPositionCounter++;
+            } else if (square.classList.contains('bomb') && square.classList.contains('flag')) {
+                flagedBombCounter++;
+            } else return;
+        });
+        console.log('Flaged bombs counter: ', flagedBombCounter);
+        console.log('Checked positions counter: ', checkedPositionCounter);
+        if (flagedBombCounter === bombsAmount && checkedPositionCounter === (size - bombsAmount)) {
+            console.log('VICTORY ');
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    function _revealAll() {
+        board.forEach((square) => {
+            if (square.classList.contains('valid')) {
+                if (!square.classList.contains('checked')) {
+                    let total = square.getAttribute('data');
+                    if (total > 0) {
+                        square.innerHTML = total;
+                    }
+                }
+            }
+
+        });
+    }
+
+
     function _handleGameOver() {
+        console.log('Game over');
+        isGameOver = true;
+        // _revealAll();
 
     }
 
@@ -175,7 +222,7 @@ const initGameEngine = () => {
         let my_col = parseInt(myPos2D.split('_')[2]);
         surroundings.forEach(neighbor => {
             let pos = `p_${(my_row+neighbor[0]) }_${(my_col+neighbor[1])}`;
-            if (transformationTable[pos]) {
+            if (transformationTable[pos] !== undefined) {
                 neighbors.push(transformationTable[pos]);
             }
             // console.log(pos);
