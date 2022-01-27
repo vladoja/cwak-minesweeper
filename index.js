@@ -111,6 +111,8 @@ const initGameEngine = () => {
             console.log('GAME OVER');
             element.innerHTML = bombIcon;
             isGameOver = true;
+            const failedOnPosition = parseInt(element.id);
+            _handleGameOver(failedOnPosition);
             return;
         }
 
@@ -157,14 +159,23 @@ const initGameEngine = () => {
     }
 
 
-    function _revealAll() {
-        board.forEach((square) => {
+    function _revealAll(failedOnPosition = null) {
+        console.log('Revealing all')
+        board.forEach((square, index) => {
             if (square.classList.contains('valid')) {
                 if (!square.classList.contains('checked')) {
                     let total = square.getAttribute('data');
                     if (total > 0) {
                         square.innerHTML = total;
                     }
+
+                }
+            }
+
+            if (square.classList.contains('bomb')) {
+                square.innerHTML = bombIcon;
+                if (index === failedOnPosition) {
+                    square.classList.add('failed');
                 }
             }
 
@@ -172,8 +183,11 @@ const initGameEngine = () => {
     }
 
 
-    function _handleGameOver() {
+    function _handleGameOver(failedOnPosition = null) {
         console.log('Game over');
+        if (isGameOver) {
+            _revealAll(failedOnPosition);
+        }
         isGameOver = true;
         // _revealAll();
 

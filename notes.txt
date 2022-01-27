@@ -11,3 +11,9 @@ Position neighbors
 Right click
     Is done via listening on 'contextmenu' event. Immediately after
     click is called 'preventDefault' function.
+
+
+
+Mine sweeper end condition
+    1) There was a clic on a bomb
+    2) All bombs are flagged and the rest checked
