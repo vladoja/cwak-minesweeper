@@ -173,12 +173,17 @@ const initGameEngine = () => {
                     }
 
                 }
-            }
-
-            if (square.classList.contains('bomb')) {
-                square.innerHTML = bombIcon;
-                if (index === failedOnPosition) {
+                if (square.classList.contains('flag')) {
                     square.classList.add('failed');
+                }
+            } else if (square.classList.contains('bomb')) {
+                if (square.classList.contains('flag')) {
+                    square.innerHTML = flagIcon;
+                } else {
+                    square.innerHTML = bombIcon;
+                    if (index === failedOnPosition) {
+                        square.classList.add('failed');
+                    }
                 }
             }
 
