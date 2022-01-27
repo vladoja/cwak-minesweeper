@@ -87,6 +87,9 @@ const initGameEngine = () => {
             bombsLeft++;
             // element.classList.add('checked')
         } else {
+            if (bombsLeft === 0) {
+                return;
+            }
             element.classList.add('flag');
             element.innerHTML = flagIcon;
             bombsLeft--;
