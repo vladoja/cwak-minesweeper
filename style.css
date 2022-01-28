@@ -32,6 +32,7 @@ body {
     text-align: center;
     line-height: 40px;
     position: relative;
+    font-weight: bold;
 }
 
 .square::after {
@@ -51,6 +52,10 @@ body {
 
 .checked::after {
     content: none;
+}
+
+.revealed {
+    background-color: #b0adad;
 }
 
 .revealed::after {
@@ -80,5 +85,34 @@ body {
 
 
 .failed {
-    background-color: red;
+    background-color: #b00000;
+}
+
+.failed::after {
+    background-color: #b00000;
+}
+
+
+.c-1 {
+    color: blue;
+}
+
+.c-2 {
+    color: green;
+}
+
+.c-3 {
+    color: red;
+}
+
+.c-4 {
+    color: #000080;
+}
+
+.c-5 {
+    color: #800000;
+}
+
+.c-6 {
+    color: #a800ad;
 }

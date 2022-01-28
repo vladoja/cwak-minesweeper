@@ -5,7 +5,7 @@ const initGameEngine = () => {
     const rows = 10;
     const columns = 10;
     const size = rows * columns;
-    const bombsAmount = 5;
+    const bombsAmount = 20;
     let bombsLeft = bombsAmount;
     const board = [];
     const transformationTable = {
@@ -127,6 +127,7 @@ const initGameEngine = () => {
         let total = element.getAttribute('data');
         if (total > 0) {
             element.innerHTML = total;
+            element.classList.add(_setNumberColorClass(total));
         } else {
             _checkSquare(element);
         }
@@ -170,6 +171,7 @@ const initGameEngine = () => {
                     let total = square.getAttribute('data');
                     if (total > 0) {
                         square.innerHTML = total;
+                        square.classList.add(_setNumberColorClass(total));
                     }
 
                 }
@@ -237,6 +239,10 @@ const initGameEngine = () => {
         return pos_name;
     }
 
+
+    function _setNumberColorClass(total = 1) {
+        return `c-${total}`;
+    }
 
     function getNeighborsIndexes(id) {
         const neighbors = [];

@@ -21,8 +21,9 @@ Mine sweeper end condition
 
 
 TODO:
+    [ y ] mark wrong placed flags
     game over indication winner/loser 
     flags left indicator
-    colored numbers
+    [ y ] colored numbers
     timer ?
     mediaquery for screen lesser then 400px
