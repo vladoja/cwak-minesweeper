@@ -186,6 +186,7 @@ const initGameEngine = () => {
                     }
                 }
             }
+            square.classList.add('revealed');
 
         });
     }
