@@ -2,6 +2,10 @@ const initGameEngine = () => {
     let isGameOver = false;
     const flagIcon = '🚩';
     const bombIcon = '💣';
+    const gameNotStartedIcon = '🙂';
+    const gameWonIcon = '😎';
+    const gameInProgressIcon = '🤔';
+    const gameLostIcon = '😵';
     const rows = 10;
     const columns = 10;
     const size = rows * columns;
@@ -29,6 +33,7 @@ const initGameEngine = () => {
     const shuffledArray = shuffle(gameArray);
 
     let bombsLeftElement = null;
+    let gameStatusElement = null;
 
     /**
      * Shuffles array in place with
@@ -106,6 +111,7 @@ const initGameEngine = () => {
     function click(element) {
         // console.log(`Clicked on square ${element.id}`);
         if (isGameOver) return;
+
         if (element.classList.contains('checked') || element.classList.contains('flag')) {
             console.log('Already checked');
             return;
@@ -136,7 +142,10 @@ const initGameEngine = () => {
             if (_checkAll()) {
                 _handleGameOver();
             }
+        } else {
+            gameStatusElement.innerHTML = gameInProgressIcon;
         }
+
 
     }
 
@@ -196,6 +205,11 @@ const initGameEngine = () => {
 
     function _handleGameOver(failedOnPosition = null) {
         console.log('Game over');
+        if (failedOnPosition) {
+            gameStatusElement.innerHTML = gameLostIcon;
+        } else {
+            gameStatusElement.innerHTML = gameWonIcon;
+        }
         if (isGameOver) {
             _revealAll(failedOnPosition);
         }
@@ -277,6 +291,15 @@ const initGameEngine = () => {
         bombsLeftElement.innerHTML = bombsLeft;
     }
 
+
+    function setGameStatusElement(element) {
+        if (!element) {
+            alert('gameStatusElement cannot be null');
+        }
+        gameStatusElement = element;
+        gameStatusElement.innerHTML = gameNotStartedIcon;
+    }
+
     function getBombs() {
         return bombsLeft;
     }
@@ -285,7 +308,8 @@ const initGameEngine = () => {
         createBoard,
         getNeighborsIndexes,
         getBombs,
-        setBombsLeftElement
+        setBombsLeftElement,
+        setGameStatusElement
     }
 
 }
@@ -298,6 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const boardElement = document.querySelector('#grid');
     gameEngine.createBoard(boardElement);
     gameEngine.setBombsLeftElement(document.querySelector('#bomb-counter span'));
+    gameEngine.setGameStatusElement(document.querySelector('#game-status'));
     // testFunction = gameEngine.getNeighborsIndexes;
 
 });
