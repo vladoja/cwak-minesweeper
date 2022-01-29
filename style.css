@@ -5,7 +5,7 @@ body {
 }
 
 .container {
-    max-width: 40rem;
+    max-width: 440px;
     margin: 2rem auto;
     display: flex;
     justify-content: center;
@@ -124,7 +124,7 @@ body {
     font-weight: bold;
     margin-bottom: 1rem;
     position: relative;
-    padding: 1rem;
+    padding: 1rem 1rem;
     background-color: #c0c0c0;
 }
 
@@ -160,4 +160,81 @@ body {
     font-size: 0.75rem;
     text-align: center;
     pointer-events: auto;
+}
+
+
+@media screen and (max-width: 400px) {
+    .container {
+        max-width: 400px;
+    }
+
+    #grid {
+        width: 320px;
+        height: 320px;
+        display: flex;
+        flex-wrap: wrap;
+        border: solid 1px black;
+    }
+
+    .square {
+        width: 32px;
+        height: 32px;
+        border: solid 1px black;
+        box-sizing: border-box;
+        text-align: center;
+        line-height: 32px;
+        position: relative;
+        font-weight: bold;
+    }
+
+    #hud div {
+        margin: 0 0.5rem;
+    }
+
+
+    .flag::after {
+        content: '🚩';
+        text-align: center;
+        line-height: 29px;
+    }
+
+}
+
+
+
+@media screen and (max-width: 340px) {
+    .container {
+        max-width: 340px;
+    }
+
+    #grid {
+        width: 300px;
+        height: 300px;
+        display: flex;
+        flex-wrap: wrap;
+        border: solid 1px black;
+    }
+
+    .square {
+        width: 30px;
+        height: 30px;
+        border: solid 1px black;
+        box-sizing: border-box;
+        text-align: center;
+        line-height: 30px;
+        position: relative;
+        font-weight: bold;
+    }
+
+    #hud div {
+        margin: 0 0.2rem;
+    }
+
+
+    .flag::after {
+        content: '🚩';
+        text-align: center;
+        line-height: 26px;
+    }
+
 }

@@ -15,15 +15,15 @@ Right click
 
 
 Mine sweeper end condition
-    1) There was a clic on a bomb
-    2) All bombs are flagged and the rest checked
+    1) There was a click on a bomb
+    2) All bombs are flagged and the rest squares are revealed/checked
 
 
 
 TODO:
     [ y ] mark wrong placed flags
-    game over indication winner/loser 
-    flags left indicator
+    [ y ] game over indication winner/loser 
+    [ y ] flags left indicator
     [ y ] colored numbers
     timer ?
-    mediaquery for screen lesser then 400px
+    [ y ]mediaquery for screen lesser then 400px
