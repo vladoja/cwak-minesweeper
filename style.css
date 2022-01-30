@@ -162,6 +162,9 @@ body {
     pointer-events: auto;
 }
 
+#header,#game-status {
+    cursor: pointer;
+}
 
 @media screen and (max-width: 400px) {
     .container {

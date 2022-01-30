@@ -1,3 +1,7 @@
+function restartGame() {
+    window.location.reload();
+}
+
 const initGameEngine = () => {
     let isGameOver = false;
     const flagIcon = '🚩';
@@ -9,7 +13,7 @@ const initGameEngine = () => {
     const rows = 10;
     const columns = 10;
     const size = rows * columns;
-    const bombsAmount = 20;
+    const bombsAmount = 8;
     let bombsLeft = bombsAmount;
     const board = [];
     const transformationTable = {
@@ -323,6 +327,5 @@ document.addEventListener('DOMContentLoaded', () => {
     gameEngine.createBoard(boardElement);
     gameEngine.setBombsLeftElement(document.querySelector('#bomb-counter span'));
     gameEngine.setGameStatusElement(document.querySelector('#game-status'));
-    // testFunction = gameEngine.getNeighborsIndexes;
 
 });
