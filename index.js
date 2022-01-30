@@ -262,7 +262,7 @@ const initGameEngine = () => {
     function _handleGameOver(failedOnPosition = null) {
         console.log('Game over');
         timer.stopTimer();
-        if (failedOnPosition) {
+        if (failedOnPosition !== null) {
             gameStatusElement.innerHTML = gameLostIcon;
         } else {
             gameStatusElement.innerHTML = gameWonIcon;
