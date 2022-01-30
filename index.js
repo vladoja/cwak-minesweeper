@@ -2,7 +2,51 @@ function restartGame() {
     window.location.reload();
 }
 
+
+const initTimer = (element) => {
+    let counter = 0;
+    let timerId = null;
+    let startTime;
+
+    function convertToTimeString(timeInSeconds) {
+        let seconds = timeInSeconds % 60;
+        if (seconds < 10) {
+            seconds = '0' + seconds;
+        }
+        let minutes = parseInt(timeInSeconds / 60);
+        if (minutes < 10) {
+            minutes = '0' + minutes;
+        }
+        return `${minutes}:${seconds}`;
+    }
+
+    function startTimer() {
+        startTime = Date.now();
+        timerId = setInterval(() => {
+            counter++;
+            if (element) {
+                element.innerHTML = convertToTimeString(counter);
+            }
+        }, 1000);
+
+    }
+
+
+    function stopTimer() {
+        let stopTime = Date.now();
+        let diff = (startTime + (counter * 1000) - stopTime);
+        // console.log('Stop time diff: ', diff);
+        clearInterval(timerId);
+    }
+
+    return {
+        startTimer,
+        stopTimer
+    }
+}
+
 const initGameEngine = () => {
+    let isGameRunning = false;
     let isGameOver = false;
     const flagIcon = '🚩';
     const bombIcon = '💣';
@@ -13,7 +57,7 @@ const initGameEngine = () => {
     const rows = 10;
     const columns = 10;
     const size = rows * columns;
-    const bombsAmount = 8;
+    const bombsAmount = 14;
     let bombsLeft = bombsAmount;
     const board = [];
     const transformationTable = {
@@ -38,6 +82,9 @@ const initGameEngine = () => {
 
     let bombsLeftElement = null;
     let gameStatusElement = null;
+    let timerElement = null;
+
+    let timer = null;
 
     /**
      * Shuffles array in place with
@@ -115,6 +162,11 @@ const initGameEngine = () => {
     function click(element) {
         // console.log(`Clicked on square ${element.id}`);
         if (isGameOver) return;
+
+        if (!isGameRunning) {
+            isGameRunning = true;
+            _startTimer();
+        }
 
         if (element.classList.contains('checked') || element.classList.contains('flag')) {
             console.log('Already checked');
@@ -209,6 +261,7 @@ const initGameEngine = () => {
 
     function _handleGameOver(failedOnPosition = null) {
         console.log('Game over');
+        timer.stopTimer();
         if (failedOnPosition) {
             gameStatusElement.innerHTML = gameLostIcon;
         } else {
@@ -281,6 +334,13 @@ const initGameEngine = () => {
 
     }
 
+
+    function _startTimer() {
+        if (timer) {
+            timer.startTimer();
+        }
+    }
+
     function getNeighbors(id) {
         const neighborIndexes = getNeighborsIndexes(id);
         return board.filter((square, index) => neighborIndexes.indexOf(index) >= 0);
@@ -304,6 +364,15 @@ const initGameEngine = () => {
         gameStatusElement.innerHTML = gameNotStartedIcon;
     }
 
+
+    function setTimerElement(element) {
+        if (!element) {
+            alert('timerElement cannot be null ');
+        }
+        timerElement = element;
+        timer = initTimer(timerElement);
+    }
+
     function getBombs() {
         return bombsLeft;
     }
@@ -313,7 +382,8 @@ const initGameEngine = () => {
         getNeighborsIndexes,
         getBombs,
         setBombsLeftElement,
-        setGameStatusElement
+        setGameStatusElement,
+        setTimerElement
     }
 
 }
@@ -327,5 +397,6 @@ document.addEventListener('DOMContentLoaded', () => {
     gameEngine.createBoard(boardElement);
     gameEngine.setBombsLeftElement(document.querySelector('#bomb-counter span'));
     gameEngine.setGameStatusElement(document.querySelector('#game-status'));
+    gameEngine.setTimerElement(document.querySelector('#game-timer'));
 
 });
